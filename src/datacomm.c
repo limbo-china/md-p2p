@@ -72,6 +72,7 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
         //     }
 
         if (getMyRank() == 13)
+            printf("cell: %d %d %d\n",xyzCellNum[0],xyzCellNum[1],xyzCellNum[2]);
             for(int i=0;i<26;i++){
                 printf("%d: %d\n", i, datacomm->commCellNum2[i]);
             }
