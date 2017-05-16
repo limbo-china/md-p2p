@@ -13,7 +13,7 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
 
 	*comm = (DataComm*)malloc(sizeof(DataComm));
     DataComm* datacomm = *comm;
-
+ 
     int* myPos = space->position;
     int* globalProcNum = space->globalProcNum;
     int* xyzCellNum = cells->xyzCellNum;
@@ -33,6 +33,27 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
     	( myPos[1] + globalProcNum[1]*((myPos[2] -1 + globalProcNum[2]) % globalProcNum[2]));
     datacomm->neighborProc[Z_POS] = myPos[0] + globalProcNum[0] *
     	( myPos[1] + globalProcNum[1]*((myPos[2] +1 + globalProcNum[2]) % globalProcNum[2]));
+
+        int3 xyz;
+        int3 xyz1;
+
+        for(int i=0;i<26;i++){
+            if(i>12)
+                i = i + 1;
+            xyz[2] = i%9 - 1;
+            xyz[1] = (i - (xyz[2]+1)*9)%3 - 1;
+            xyz[0] = i%3 -1;
+
+            xyz1[0] = (myPos[0] +xyz[0] + globalProcNum[0]) % globalProcNum[0];
+            xyz1[1] = (myPos[1] +xyz[1] + globalProcNum[1]) % globalProcNum[1];
+            xyz1[2] = (myPos[2] +xyz[2] + globalProcNum[2]) % globalProcNum[2];
+
+            datacomm->neighborProc2[i] = xyz1[0] + globalProcNum[0] *(xyz1[1] + globalProcNum[1]*xyz1[2]);
+        }
+        if (getMyRank() == 13)
+            for(int i=0;i<26;i++){
+                printf("%d: %d ", i, datacomm->neighborProc2[i]);
+            }
 
     // if (ifZeroRank())
     // 	for(int i=0;i<6;i++)
