@@ -41,6 +41,8 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
         for(int i=0;i<26;i++){
             if(i>12)
                 k = i + 1;
+            else
+                k = i;
             xyz[2] = k/9 - 1;
             xyz[1] = (k/3)%3 - 1;
             xyz[0] = k%3 -1;
