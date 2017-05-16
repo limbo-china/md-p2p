@@ -66,17 +66,17 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
 
             datacomm->neighborProc2[i] = xyz1[0] + globalProcNum[0] *(xyz1[1] + globalProcNum[1]*xyz1[2]);
         }
-        if (getMyRank() == 13)
-            for(int i=0;i<26;i++){
-                printf("%d: %d\n", i, datacomm->neighborProc2[i]);
-            }
+        // if (getMyRank() == 13)
+        //     for(int i=0;i<26;i++){
+        //         printf("%d: %d\n", i, datacomm->neighborProc2[i]);
+        //     }
 
-        if (getMyRank() == 13){
-            //printf("cell: %d %d %d\n",xyzCellNum[0],xyzCellNum[1],xyzCellNum[2]);
-            for(int i=0;i<26;i++){
-                printf("\n%d: %d\n", i, datacomm->commCellNum2[i]);
-            }
-        }
+        // if (getMyRank() == 13){
+        //     //printf("cell: %d %d %d\n",xyzCellNum[0],xyzCellNum[1],xyzCellNum[2]);
+        //     for(int i=0;i<26;i++){
+        //         printf("\n%d: %d\n", i, datacomm->commCellNum2[i]);
+        //     }
+        // }
 
     // 各方向需要通信的细胞数的最大值
     int maxComm = MAX((xyzCellNum[0]+2)*(xyzCellNum[1]+2),
@@ -210,9 +210,9 @@ int* findCommCells2(struct CellStr* cells, int direct, int num){
                 }
                 commcells[n++] = findCellByXYZ(cells, cellxyz);
                 commcells[n++] = findCellByXYZ(cells, cellxyz2);
-                if(direct == 4){
-                    printf("%d: %d %d %d\n",commcells[n-1],cellxyz2[0],cellxyz2[1],cellxyz2[2]);
-                }
+                // if(direct == 4){
+                //     printf("%d: %d %d %d\n",commcells[n-1],cellxyz2[0],cellxyz2[1],cellxyz2[2]);
+                // }
                 if(zEnd>1){
                     cellxyz[2] ++;
                     cellxyz2[2] ++;
@@ -228,15 +228,15 @@ int* findCommCells2(struct CellStr* cells, int direct, int num){
             cellxyz2[0] ++;
         }
     }
-    if (getMyRank() == 13){
+    // if (getMyRank() == 13){
       
-        printf("\ndirect: %d\n",direct );
-        printf("n: %d num: %d\n",n,num);
-        printf("cells:\n",n,num);
-        for(int i=0;i<n;i++)
-            printf("%d ",commcells[i]);
-        printf("\n-----\n");
-    }
+    //     printf("\ndirect: %d\n",direct );
+    //     printf("n: %d num: %d\n",n,num);
+    //     printf("cells:\n",n,num);
+    //     for(int i=0;i<n;i++)
+    //         printf("%d ",commcells[i]);
+    //     printf("\n-----\n");
+    // }
 
     return commcells;
 }
