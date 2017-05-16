@@ -36,13 +36,14 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
 
         int3 xyz;
         int3 xyz1;
+        int k;
 
         for(int i=0;i<26;i++){
             if(i>12)
-                i = i + 1;
-            xyz[2] = i/9 - 1;
-            xyz[1] = (i/3)%3 - 1;
-            xyz[0] = i%3 -1;
+                k = i + 1;
+            xyz[2] = k/9 - 1;
+            xyz[1] = (k/3)%3 - 1;
+            xyz[0] = k%3 -1;
 
             if (getMyRank() == 13)
                 printf("%d: %d %d %d\n", i, xyz[0],xyz[1],xyz[2]);
