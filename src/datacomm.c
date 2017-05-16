@@ -71,12 +71,12 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
         //         printf("%d: %d\n", i, datacomm->neighborProc2[i]);
         //     }
 
-        if (getMyRank() == 13){
-            printf("cell: %d %d %d\n",xyzCellNum[0],xyzCellNum[1],xyzCellNum[2]);
-            for(int i=0;i<26;i++){
-                printf("%d: %d\n", i, datacomm->commCellNum2[i]);
-            }
-        }
+        // if (getMyRank() == 13){
+        //     printf("cell: %d %d %d\n",xyzCellNum[0],xyzCellNum[1],xyzCellNum[2]);
+        //     for(int i=0;i<26;i++){
+        //         printf("%d: %d\n", i, datacomm->commCellNum2[i]);
+        //     }
+        // }
 
     // 各方向需要通信的细胞数的最大值
     int maxComm = MAX((xyzCellNum[0]+2)*(xyzCellNum[1]+2),
@@ -93,6 +93,9 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
 
    	for (int dimen=0; dimen<6; dimen++)
       datacomm->commCells[dimen] = findCommCells(cells, dimen, datacomm->commCellNum[dimen]);
+
+    for (int direct=0; direct<26; direct++)
+      datacomm->commCells2[direct] = findCommCells2(cells, direct, datacomm->commCellNum2[direct]);
 }
 
 // 找出指定维度上所有通信部分的细胞
@@ -121,6 +124,83 @@ int* findCommCells(struct CellStr* cells, enum Neighbor dimen, int num){
             	commcells[n++] = findCellByXYZ(cells, xyz);
    	//assert
    	return commcells;
+}
+
+// 找出指定维度上所有通信部分的细胞
+int* findCommCells2(struct CellStr* cells, int direct, int num){
+
+    int* commcells = malloc(num*sizeof(int));
+    int3 xyz;
+    int3 cellxyz;
+    int k;
+
+    int xBegin = 0;
+    int xEnd   = 1;
+    int yBegin = 0;
+    int yEnd   = 1;
+    int zBegin = 0;
+    int zEnd   = 1;
+
+    if(direct>12)
+        k = direct + 1;
+    else
+        k = direct;
+    xyz[2] = k/9 - 1;
+    xyz[1] = (k/3)%3 - 1;
+    xyz[0] = k%3 -1;
+
+    if(xyz[0] == 0){
+        cellxyz[0] = 0;
+        xEnd = cells->xyzCellNum[0];
+    }
+    if(xyz[1] == 0){
+        cellxyz[1] = 0;
+        yEnd = cells->xyzCellNum[1];
+    }
+    if(xyz[2] == 0){
+        cellxyz[2] = 0;
+        zEnd = cells->xyzCellNum[2];
+    }
+
+    if(xyz[0] == -1)
+        cellxyz[0] = -1;
+    else if(xyz[0] == 1)
+        cellxyz[0] = cells->xyzCellNum[0];
+    if(xyz[1] == -1)
+        cellxyz[1] = -1;
+    else if(xyz[1] == 1)
+        cellxyz[1] = cells->xyzCellNum[1];
+    if(xyz[2] == -1)
+        cellxyz[2] = -1;
+    else if(xyz[2] == 1)
+        cellxyz[2] = cells->xyzCellNum[2];
+
+    int n =0;
+    for (int i =xBegin; i<xEnd; i++){
+        for (int j =yBegin; j<yEnd; j++){
+            for (int k =zBegin; k<zEnd; k++)
+            {
+                commcells[n++] = findCellByXYZ(cells, cellxyz);
+                if(zEnd>1)
+                    cellxyz[2] ++;
+            }
+            if(yEnd>1)
+                cellxyz[1] ++;
+        }
+        if(xEnd>1)
+            cellxyz[0] ++;
+    }
+    if (getMyRank() == 13){
+      
+        printf("\ndirect: %d\n",direct );
+        printf("n: %d num: %d\n",n,num);
+        printf("cells:\n",n,num);
+        for(int i=0;i<n;i++)
+            printf("%d ",commcells[i]);
+        printf("\n-----\n");
+    }
+
+    return commcells;
 }
 
 // 将待发送的原子数据加入缓冲区内,返回加入缓冲区内的数据个数
