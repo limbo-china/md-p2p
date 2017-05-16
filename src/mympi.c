@@ -45,7 +45,6 @@ void initRank()
 {
    	MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
    	MPI_Comm_size(MPI_COMM_WORLD, &rankNums);
-      printf("%d\n",rankNums );
 }
 
 // 同步所有进程
