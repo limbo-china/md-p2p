@@ -193,9 +193,21 @@ int* findCommCells2(struct CellStr* cells, int direct, int num){
 
     int n =0;
     for (int i =xBegin; i<xEnd; i++){
+        if(xEnd>1 && i ==xBegin){
+            cellxyz[0] = 0;
+            cellxyz2[0] = 0;
+        }
         for (int j =yBegin; j<yEnd; j++){
+            if(yEnd>1 && j ==yBegin){
+                cellxyz[1] = 0;
+                cellxyz2[1] = 0;
+            }
             for (int k =zBegin; k<zEnd; k++)
             {
+                if(zEnd>1 && k ==zBegin){
+                    cellxyz[2] = 0;
+                    cellxyz2[2] = 0;
+                }
                 commcells[n++] = findCellByXYZ(cells, cellxyz);
                 commcells[n++] = findCellByXYZ(cells, cellxyz2);
                 if(direct == 4){
