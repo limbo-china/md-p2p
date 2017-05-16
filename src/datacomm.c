@@ -41,7 +41,7 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
             if(i>12)
                 i = i + 1;
             xyz[2] = i/9 - 1;
-            xyz[1] = (i - (xyz[2]+1)*9)%3 - 1;
+            xyz[1] = (i/3)%3 - 1;
             xyz[0] = i%3 -1;
 
             if (getMyRank() == 13)
