@@ -53,7 +53,7 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
 
             datacomm->neighborProc2[i] = xyz1[0] + globalProcNum[0] *(xyz1[1] + globalProcNum[1]*xyz1[2]);
         }
-        if (getMyRank() == 13)
+        if (getMyRank() == 4)
             for(int i=0;i<26;i++){
                 printf("%d: %d\n", i, datacomm->neighborProc2[i]);
             }
