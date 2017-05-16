@@ -71,12 +71,12 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
         //         printf("%d: %d\n", i, datacomm->neighborProc2[i]);
         //     }
 
-        // if (getMyRank() == 13){
-        //     printf("cell: %d %d %d\n",xyzCellNum[0],xyzCellNum[1],xyzCellNum[2]);
-        //     for(int i=0;i<26;i++){
-        //         printf("%d: %d\n", i, datacomm->commCellNum2[i]);
-        //     }
-        // }
+        if (getMyRank() == 13){
+            //printf("cell: %d %d %d\n",xyzCellNum[0],xyzCellNum[1],xyzCellNum[2]);
+            for(int i=0;i<26;i++){
+                printf("%d: %d\n", i, datacomm->commCellNum2[i]);
+            }
+        }
 
     // 各方向需要通信的细胞数的最大值
     int maxComm = MAX((xyzCellNum[0]+2)*(xyzCellNum[1]+2),
