@@ -49,7 +49,7 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
 
             xyz1[0] = (myPos[0] +xyz[0] + globalProcNum[0]) % globalProcNum[0];
             xyz1[1] = (myPos[1] +xyz[1] + globalProcNum[1]) % globalProcNum[1];
-            // xyz1[2] = (myPos[2] +xyz[2] + globalProcNum[2]) % globalProcNum[2];
+            xyz1[2] = (myPos[2] +xyz[2] + globalProcNum[2]) % globalProcNum[2];
 
             datacomm->neighborProc2[i] = xyz1[0] + globalProcNum[0] *(xyz1[1] + globalProcNum[1]*xyz1[2]);
         }
