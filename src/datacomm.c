@@ -52,7 +52,7 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
         }
         if (getMyRank() == 13)
             for(int i=0;i<26;i++){
-                printf("%d: %d ", i, datacomm->neighborProc2[i]);
+                printf("%d: %d\n", i, datacomm->neighborProc2[i]);
             }
 
     // if (ifZeroRank())
