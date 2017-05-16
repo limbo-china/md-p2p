@@ -132,6 +132,7 @@ int* findCommCells2(struct CellStr* cells, int direct, int num){
     int* commcells = malloc(num*sizeof(int));
     int3 xyz;
     int3 cellxyz;
+    int3 cellxyz2;
     int k;
 
     int xBegin = 0;
@@ -151,29 +152,44 @@ int* findCommCells2(struct CellStr* cells, int direct, int num){
 
     if(xyz[0] == 0){
         cellxyz[0] = 0;
+        cellxyz2[0] = 0;
         xEnd = cells->xyzCellNum[0];
     }
     if(xyz[1] == 0){
         cellxyz[1] = 0;
+        cellxyz2[1] = 0;
         yEnd = cells->xyzCellNum[1];
     }
     if(xyz[2] == 0){
         cellxyz[2] = 0;
+        cellxyz2[2] = 0;
         zEnd = cells->xyzCellNum[2];
     }
 
-    if(xyz[0] == -1)
+    if(xyz[0] == -1){
         cellxyz[0] = -1;
-    else if(xyz[0] == 1)
+        cellxyz2[0] = 0;
+    }
+    else if(xyz[0] == 1){
         cellxyz[0] = cells->xyzCellNum[0];
-    if(xyz[1] == -1)
+        cellxyz2[0] = cells->xyzCellNum[0]-1;
+    }
+    if(xyz[1] == -1){
         cellxyz[1] = -1;
-    else if(xyz[1] == 1)
+        cellxyz2[1] = 0;
+    }
+    else if(xyz[1] == 1){
         cellxyz[1] = cells->xyzCellNum[1];
-    if(xyz[2] == -1)
+        cellxyz2[1] = cells->xyzCellNum[1]-1;
+    }
+    if(xyz[2] == -1){
         cellxyz[2] = -1;
-    else if(xyz[2] == 1)
+        cellxyz2[2] = 0;
+    }
+    else if(xyz[2] == 1){
         cellxyz[2] = cells->xyzCellNum[2];
+        cellxyz2[2] = cells->xyzCellNum[2]-1;
+    }
 
     int n =0;
     for (int i =xBegin; i<xEnd; i++){
@@ -181,14 +197,21 @@ int* findCommCells2(struct CellStr* cells, int direct, int num){
             for (int k =zBegin; k<zEnd; k++)
             {
                 commcells[n++] = findCellByXYZ(cells, cellxyz);
-                if(zEnd>1)
+                commcells[n++] = findCellByXYZ(cells, cellxyz2);
+                if(zEnd>1){
                     cellxyz[2] ++;
+                    cellxyz2[2] ++;
+                }
             }
-            if(yEnd>1)
+            if(yEnd>1){
                 cellxyz[1] ++;
+                cellxyz2[1] ++;
+            }
         }
-        if(xEnd>1)
+        if(xEnd>1){
             cellxyz[0] ++;
+            cellxyz2[0] ++;
+        }
     }
     if (getMyRank() == 13){
       
