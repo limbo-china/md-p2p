@@ -199,8 +199,7 @@ int* findCommCells2(struct CellStr* cells, int direct, int num){
                 commcells[n++] = findCellByXYZ(cells, cellxyz);
                 commcells[n++] = findCellByXYZ(cells, cellxyz2);
                 if(direct == 4){
-                    printf("%d: %d %d %d\n",commcells[n]
-                        ,cellxyz2[0],cellxyz2[1],cellxyz2[2]);
+                    printf("%d: %d %d %d\n",commcells[n],cellxyz2[0],cellxyz2[1],cellxyz2[2]);
                 }
                 if(zEnd>1){
                     cellxyz[2] ++;
