@@ -23,6 +23,9 @@ typedef struct DataCommStr{
 	// 各方向上需要通信的细胞数量
 	int commCellNum[6];
 
+	// 各方向上需要通信的细胞数量
+	int commCellNum2[26];
+
 	// 各方向上通信的细胞链表
 	int *commCells[6];
 

@@ -37,8 +37,12 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
         int3 xyz;
         int3 xyz1;
         int k;
+        int commcellnum =2;
 
         for(int i=0;i<26;i++){
+
+            commcellnum = 2;
+
             if(i>12)
                 k = i + 1;
             else
@@ -46,6 +50,15 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
             xyz[2] = k/9 - 1;
             xyz[1] = (k/3)%3 - 1;
             xyz[0] = k%3 -1;
+
+            if(xyz[0] ==0)
+                commcellnum *= xyzCellNum[0];
+            if(xyz[1] ==0)
+                commcellnum *= xyzCellNum[1];
+            if(xyz[2] ==0)
+                commcellnum *= xyzCellNum[2];
+
+            datacomm->commCellNum2[i] = commcellnum;
 
             xyz1[0] = (myPos[0] +xyz[0] + globalProcNum[0]) % globalProcNum[0];
             xyz1[1] = (myPos[1] +xyz[1] + globalProcNum[1]) % globalProcNum[1];
@@ -57,6 +70,11 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
         //     for(int i=0;i<26;i++){
         //         printf("%d: %d\n", i, datacomm->neighborProc2[i]);
         //     }
+
+        if (getMyRank() == 13)
+            for(int i=0;i<26;i++){
+                printf("%d: %d\n", i, datacomm->commCellNum2[i]);
+            }
 
     // 各方向需要通信的细胞数的最大值
     int maxComm = MAX((xyzCellNum[0]+2)*(xyzCellNum[1]+2),
