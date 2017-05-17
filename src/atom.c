@@ -224,7 +224,7 @@ void adjustAtoms(struct SystemStr* sys){
     //printf("adjust\n");
 
     // 与各邻居进程进行通信
-    enum Neighbor dimen_POSI, dimen_NEGA;
+    int direct_POSI, direct_NEGA;
     int neighbor_NEGA,neighbor_POSI;
 
     // 4个缓冲区，正负轴上发送缓冲区和接收缓冲区
@@ -235,16 +235,16 @@ void adjustAtoms(struct SystemStr* sys){
     char* posRecvBuf = malloc(bufsize);
 
     beginTimer(communication);
-    for(int dimen = 0;dimen<3;dimen++){
-        dimen_NEGA = 2*dimen;
-        dimen_POSI = 2*dimen + 1;
+    for(int direct = 0;direct<13;direct++){
+        direct_NEGA = direct;
+        direct_POSI = 25-direct;
 
-        neighbor_NEGA = sys->datacomm->neighborProc[dimen_NEGA];
-        neighbor_POSI = sys->datacomm->neighborProc[dimen_POSI];
+        neighbor_NEGA = sys->datacomm->neighborProc[direct_NEGA];
+        neighbor_POSI = sys->datacomm->neighborProc[direct_POSI];
 
         // 将数据加入发送缓冲区
-        int neg_send = addSendData(sys, negSendBuf, dimen_NEGA);
-        int pos_send = addSendData(sys, posSendBuf, dimen_POSI);
+        int neg_send = addSendData2(sys, negSendBuf, direct_NEGA);
+        int pos_send = addSendData2(sys, posSendBuf, direct_POSI);
         //printf("addsend\n");
         // if (ifZeroRank())
         // {

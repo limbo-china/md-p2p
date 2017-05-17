@@ -79,9 +79,9 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells){
         // }
 
     // 各方向需要通信的细胞数的最大值
-    int maxComm = MAX((xyzCellNum[0]+2)*(xyzCellNum[1]+2),
-    	MAX((xyzCellNum[1]+2)*(xyzCellNum[2]+2),
-    		(xyzCellNum[0]+2)*(xyzCellNum[2]+2)));
+    int maxComm = MAX(xyzCellNum[0]*xyzCellNum[1],
+    	MAX(xyzCellNum[1]*xyzCellNum[2],
+    		xyzCellNum[0]*xyzCellNum[2]));
     datacomm->bufSize = 2*maxComm*MAXPERCELL*sizeof(AtomData); //可改进为每个面需要自己的细胞数量
 
     datacomm->commCellNum[X_NEG] = 2*(xyzCellNum[1]+2)*(xyzCellNum[2]+2);
@@ -290,6 +290,60 @@ int addSendData(struct SystemStr* sys, void* buf, enum Neighbor dimen){
          	num++;
       	}
    	}
+   return num;
+}
+
+// 将待发送的原子数据加入缓冲区内,返回加入缓冲区内的数据个数
+int addSendData2(struct SystemStr* sys, void* buf, int direct){
+
+    int num = 0;
+    AtomData* buffer = (AtomData*) buf; // 可改进为拥有自己的缓冲区
+    
+    int commCellNum = sys->datacomm->commCellNum2[direct];    
+    int* commCells = sys->datacomm->commCells2[direct];
+    int* spacePos = sys->space->position;
+    int* spaceNum = sys->space->globalProcNum;
+
+    int k;
+    int3 xyz;
+    if(direct>12)
+        k = direct + 1;
+    else
+        k = direct;
+    xyz[2] = k/9 - 1;
+    xyz[1] = (k/3)%3 - 1;
+    xyz[0] = k%3 -1;
+
+    double3 boundaryAdjust;
+    for(int i=0;i<3;i++)
+        boundaryAdjust[i]= 0.0;
+
+    if(spacePos[0] == 0 && xyz[0] == -1)
+        boundaryAdjust[0] = sys->space->globalLength[0];
+    if(spacePos[0] == spaceNum[0]-1 && xyz[0] == 1)
+        boundaryAdjust[0] = -1.0*sys->space->globalLength[0];
+    if(spacePos[1] == 0 && xyz[1] == -1)
+        boundaryAdjust[1] = sys->space->globalLength[1];
+    if(spacePos[1] == spaceNum[1]-1 && xyz[1] == 1)
+        boundaryAdjust[1] = -1.0*sys->space->globalLength[1];
+    if(spacePos[2] == 0 && xyz[2] == -1)
+        boundaryAdjust[2] = sys->space->globalLength[2];
+    if(spacePos[2] == spaceNum[2]-1 && xyz[2] == 1)
+        boundaryAdjust[2] = -1.0*sys->space->globalLength[2];
+   
+    for (int nCell=0; nCell<commCellNum; nCell++)
+    {
+        int cell = commCells[nCell];
+        for (int n=cell*MAXPERCELL,count=0; count<sys->cells->atomNum[cell]; n++,count++)
+        {
+            for(int i=0;i<3;i++){
+                buffer[num].pos[i] = sys->atoms->pos[n][i]+boundaryAdjust[i];
+                buffer[num].momenta[i] = sys->atoms->momenta[n][i];
+            }
+            buffer[num].id  = sys->atoms->id[n];
+            num++;
+        }
+    }
    return num;
 }
 

@@ -59,6 +59,9 @@ int* findCommCells2(struct CellStr* cells, int direct, int num);
 // 将待发送的原子数据加入缓冲区内,返回加入缓冲区内的数据个数
 int addSendData(struct SystemStr* sys, void* buf, enum Neighbor dimen);
 
+// 将待发送的原子数据加入缓冲区内,返回加入缓冲区内的数据个数
+int addSendData2(struct SystemStr* sys, void* buf, int direct);
+
 // 处理已接收的其他进程的原子数据
 void procRecvData(struct SystemStr* sys, void* buf, int size);
 
