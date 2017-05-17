@@ -34,11 +34,11 @@ int main(int argc, char** argv){
 	Parameter* para = readParameter();
 	printPara(stdout,para);
 
-	beginTimer(loop);
+	
 	//sleep(5);
 	System* sys = initSystem(para);
 
-
+	beginTimer(loop);
 	for(int i=1;i<=para->stepNums;i++){
     	updateMomenta(sys, para); 
 
