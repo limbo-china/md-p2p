@@ -256,14 +256,17 @@ void adjustAtoms(struct SystemStr* sys){
 
         
         MPI_Status status1,status2;
+        printf("rank %d direct %d: 1\n",getMyRank(),direct);
         MPI_Sendrecv(negSendBuf, neg_send*sizeof(AtomData), MPI_BYTE, neighbor_NEGA, 0,
                 posRecvBuf, bufsize, MPI_BYTE, neighbor_POSI, 0,
                 MPI_COMM_WORLD, &status1);
         MPI_Get_count(&status1, MPI_BYTE, &pos_recv);
+        printf("rank %d direct %d: 2\n",getMyRank(),direct);
         MPI_Sendrecv(posSendBuf, pos_send*sizeof(AtomData), MPI_BYTE, neighbor_POSI, 0,
                 negRecvBuf, bufsize, MPI_BYTE, neighbor_NEGA, 0,
                 MPI_COMM_WORLD, &status2);
         MPI_Get_count(&status2, MPI_BYTE, &neg_recv);
+        printf("rank %d direct %d: 3\n",getMyRank(),direct);
        
         //printf("sendrecv\n");
 
