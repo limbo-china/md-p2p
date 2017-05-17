@@ -239,8 +239,8 @@ void adjustAtoms(struct SystemStr* sys){
         direct_NEGA = direct;
         direct_POSI = 25-direct;
 
-        neighbor_NEGA = sys->datacomm->neighborProc[direct_NEGA];
-        neighbor_POSI = sys->datacomm->neighborProc[direct_POSI];
+        neighbor_NEGA = sys->datacomm->neighborProc2[direct_NEGA];
+        neighbor_POSI = sys->datacomm->neighborProc2[direct_POSI];
 
         // 将数据加入发送缓冲区
         int neg_send = addSendData2(sys, negSendBuf, direct_NEGA);
@@ -256,17 +256,17 @@ void adjustAtoms(struct SystemStr* sys){
 
         
         MPI_Status status1,status2;
-        printf("rank %d direct %d sendto %d recvfrom %d: 1\n",getMyRank(),direct,neighbor_NEGA,neighbor_POSI);
+        //printf("rank %d direct %d sendto %d recvfrom %d: 1\n",getMyRank(),direct,neighbor_NEGA,neighbor_POSI);
         MPI_Sendrecv(negSendBuf, neg_send*sizeof(AtomData), MPI_BYTE, neighbor_NEGA, 0,
                 posRecvBuf, bufsize, MPI_BYTE, neighbor_POSI, 0,
                 MPI_COMM_WORLD, &status1);
         MPI_Get_count(&status1, MPI_BYTE, &pos_recv);
-        printf("rank %d direct %d sendto %d recvfrom %d: 2\n",getMyRank(),direct,neighbor_NEGA,neighbor_POSI);
+        //printf("rank %d direct %d sendto %d recvfrom %d: 2\n",getMyRank(),direct,neighbor_NEGA,neighbor_POSI);
         MPI_Sendrecv(posSendBuf, pos_send*sizeof(AtomData), MPI_BYTE, neighbor_POSI, 0,
                 negRecvBuf, bufsize, MPI_BYTE, neighbor_NEGA, 0,
                 MPI_COMM_WORLD, &status2);
         MPI_Get_count(&status2, MPI_BYTE, &neg_recv);
-        printf("rank %d direct %d sendto %d recvfrom %d: 3\n",getMyRank(),direct,neighbor_NEGA,neighbor_POSI);
+        //printf("rank %d direct %d sendto %d recvfrom %d: 3\n",getMyRank(),direct,neighbor_NEGA,neighbor_POSI);
        
         //printf("sendrecv\n");
 
