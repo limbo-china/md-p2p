@@ -61,7 +61,7 @@ int main(int argc, char** argv){
 			{
 				printf("当前步数: %d 		",i);
 			}		
-    		computeTotalKinetic(sys);	
+    		computeTotalKinetic(sys);
     		printTemper(stdout,sys->energy,sys->atoms->totalNum);
     	}
     }
@@ -86,11 +86,11 @@ int main(int argc, char** argv){
 	if(ifZeroRank())
 	{
 		//fprintf(stdout, "total time: %g\n",getGlobalTime(total));
-		fprintf(stdout, "\n------\n总循环时间: %g 平均: %g\n",globalloop,globalloop/getRankNums());
+		fprintf(stdout, "\n------\n总执行时间: %g 平均: %g\n",globalloop,globalloop/getRankNums());
 		//fprintf(stdout, "adjust time: %g\n",getGlobalTime(adjustatom));
-		fprintf(stdout, "通信时间: %g 平均: %g\n",globalcomm,globalcomm/getRankNums());
+		fprintf(stdout, "通信消耗时间: %g 平均: %g\n",globalcomm,globalcomm/getRankNums());
 		fprintf(stdout, "计算力时间: %g 平均: %g\n------\n",globalforce,globalforce/getRankNums());
-		fprintf(stdout, "test time: %g\n",getGlobalTime(test));
+		//fprintf(stdout, "test time: %g\n",getGlobalTime(test));
 	}
 
 
