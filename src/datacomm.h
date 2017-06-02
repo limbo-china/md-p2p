@@ -23,8 +23,14 @@ typedef struct DataCommStr{
 	// 各方向上需要通信的细胞数量
 	int commCellNum[6];
 
+	// 各方向上需要通信的细胞数量
+	int commCellNum2[26];
+
 	// 各方向上通信的细胞链表
 	int *commCells[6];
+
+	// 各方向上通信的细胞链表
+	int *commCells2[26];
 
 }DataComm;
 
@@ -47,8 +53,14 @@ void initComm(DataComm** comm, struct SpacialStr* space, struct CellStr* cells);
 // 找出指定维度上所有通信部分的细胞
 int* findCommCells(struct CellStr* cells, enum Neighbor dimen, int num);
 
+// 找出指定维度上所有通信部分的细胞
+int* findCommCells2(struct CellStr* cells, int direct, int num);
+
 // 将待发送的原子数据加入缓冲区内,返回加入缓冲区内的数据个数
 int addSendData(struct SystemStr* sys, void* buf, enum Neighbor dimen);
+
+// 将待发送的原子数据加入缓冲区内,返回加入缓冲区内的数据个数
+int addSendData2(struct SystemStr* sys, void* buf, int direct);
 
 // 处理已接收的其他进程的原子数据
 void procRecvData(struct SystemStr* sys, void* buf, int size);

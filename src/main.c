@@ -34,11 +34,11 @@ int main(int argc, char** argv){
 	Parameter* para = readParameter();
 	printPara(stdout,para);
 
-	beginTimer(loop);
+	
 	//sleep(5);
 	System* sys = initSystem(para);
 
-
+	beginTimer(loop);
 	for(int i=1;i<=para->stepNums;i++){
     	updateMomenta(sys, para); 
 
@@ -91,6 +91,7 @@ int main(int argc, char** argv){
 		fprintf(stdout, "通信消耗时间: %g 平均: %g\n",globalcomm,globalcomm/getRankNums());
 		fprintf(stdout, "计算力时间: %g 平均: %g\n------\n",globalforce,globalforce/getRankNums());
 		//fprintf(stdout, "test time: %g\n",getGlobalTime(test));
+
 	}
 
 
