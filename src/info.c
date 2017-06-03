@@ -81,8 +81,8 @@ void printTemper(FILE*f, Energy* ener, int totalAtom){
 
     double temper = (2*ener->kineticEnergy)/(totalAtom*kB*3);
 
-    fprintf(f, "体系总能量: %g ev\t体系总势能: %g ev\t体系总动能: %g ev\n", 
-      ener->potentialEnergy+ener->kineticEnergy, ener->potentialEnergy, ener->kineticEnergy);
+    fprintf(f, "平均总能量: %g ev\t平均势能: %g ev\t平均动能: %g ev\n", 
+      (ener->potentialEnergy+ener->kineticEnergy)/totalAtom, ener->potentialEnergy/totalAtom, ener->kineticEnergy/totalAtom);
 }
 
 // 输出体系温度
