@@ -83,7 +83,7 @@ void printTemper(FILE*f, Energy* ener, int totalAtom){
 
     double temper = (2*ener->kineticEnergy)/(totalAtom*kB*3);
 
-    fprintf(f, "体系总能量:\t %g ev体系总势能:\t %g ev\t体系总动能:\t %g ev\t\n", 
+    fprintf(f, "体系总能量: %g ev\t体系总势能: %g ev\t体系总动能: %g ev\n", 
       ener->potentialEnergy+ener->kineticEnergy, ener->potentialEnergy, ener->kineticEnergy);
 }
 
@@ -94,6 +94,6 @@ void printTemper2(FILE*f, Energy* ener, int totalAtom){
 
     double temper = (2*ener->kineticEnergy)/(totalAtom*kB*3);
 
-    fprintf(f, "当前体系温度:\t %g K\t\n", 
+    fprintf(f, "当前体系温度: %g K\t\n", 
       temper);
 }
