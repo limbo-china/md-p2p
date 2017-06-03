@@ -11,7 +11,6 @@ void printPara(FILE* f, Parameter* para){
 
    	fprintf(f,
            "---输入参数:---\n\n"
-           "势函数: %s\n"
            "X方向晶格数: %d      "
            "Y方向晶格数: %d      "
            "Z方向晶格数: %d\n"
@@ -23,7 +22,6 @@ void printPara(FILE* f, Parameter* para){
            "步长: %g fs\n"
            "初始温度: %g K\n"
            "----------------\n\n",
-           para->potentialName,
            para->xLat, 
            para->yLat,
            para->zLat,
@@ -47,7 +45,7 @@ void printPotential(FILE* f, Potential* potential){
 
     fprintf(f, "---势函数信息:---\n\n");
     fprintf(f, "势函数   : %s\n", potential->potentialType);
-    fprintf(f, "截断半径           : %g\n", potential->cutoff);
+    fprintf(f, "截断半径 : %g\n", potential->cutoff);
     //fprintf(f, "sigma          : %g\n", potential->sigma);
     //fprintf(f, "epsilon            : %g\n", potential->epsilon);
     //fprintf(f, "Beta            : %g\n", potential->Beta);
@@ -94,6 +92,6 @@ void printTemper2(FILE*f, Energy* ener, int totalAtom){
 
     double temper = (2*ener->kineticEnergy)/(totalAtom*kB*3);
 
-    fprintf(f, "当前体系温度: %g K\t\n", 
+    fprintf(f, "\n当前体系温度: %g K\t\n", 
       temper);
 }
