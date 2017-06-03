@@ -76,12 +76,24 @@ void printTotalAtom(FILE* f, Atom* atoms){
     fprintf(f, "总原子数    : %d\n", atoms->totalNum);
 }
 
-// 输出体系的温度
+// 输出体系能量
 void printTemper(FILE*f, Energy* ener, int totalAtom){
     if (! ifZeroRank())
         return;
 
     double temper = (2*ener->kineticEnergy)/(totalAtom*kB*3);
 
-     fprintf(f, "体系总动能:\t %g ev\t当前温度:\t%g K\n", ener->kineticEnergy,temper);
+    fprintf(f, "体系总能量:\t %g ev体系总势能:\t %g ev\t体系总动能:\t %g ev\t\n", 
+      ener->potentialEnergy+ener->kineticEnergy, ener->potentialEnergy, ener->kineticEnergy);
+}
+
+// 输出体系温度
+void printTemper2(FILE*f, Energy* ener, int totalAtom){
+    if (! ifZeroRank())
+        return;
+
+    double temper = (2*ener->kineticEnergy)/(totalAtom*kB*3);
+
+    fprintf(f, "当前体系温度:\t %g K\t\n", 
+      temper);
 }
