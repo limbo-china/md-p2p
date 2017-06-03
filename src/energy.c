@@ -17,6 +17,7 @@ void initEnergy(Energy** ener){
 // 计算体系的总动能
 void computeTotalKinetic(struct SystemStr* sys){
 
+printf("1\n");
   double ener[2];
   double res_ener[2];
   ener[0] = 0.0;
@@ -31,9 +32,10 @@ void computeTotalKinetic(struct SystemStr* sys){
       		for(int i=0; i<3; i++)
          		ener[0] += sys->atoms->momenta[n][i]*sys->atoms->momenta[n][i]
          			*0.5/atomM;
-
+printf("2\n");
     // AllReduce, 得到整个体系的总动能和势能
     MPI_Allreduce(ener, res_ener, 2, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    printf("3\n");
 
    	sys->energy->kineticEnergy = ener[0];
     sys->energy->potentialEnergy = ener[1];
