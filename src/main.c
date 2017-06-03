@@ -26,8 +26,6 @@ int main(int argc, char** argv){
 	//fprintf(stdout, "rankNums: %d\n", getRankNums());
 	//fprintf(stdout, "myRank: %d\n", getMyRank());
 
-	// 同步不起作用？
-	//parallelBarrier("Begin to read parameters.");
 
 	beginTimer(total);
 
@@ -59,12 +57,13 @@ int main(int argc, char** argv){
     	//printTotalAtom(stdout,sys->atoms);
     		if(ifZeroRank())
 			{
-				printf("当前步数: %d 		",i);
+				printf("当前步数: %d 	已模拟时间: %g fs\t",i,i*para.stepTime);
 			}		
     		computeTotalKinetic(sys);
     		printTemper(stdout,sys->energy,sys->atoms->totalNum);
     	}
     }
+    printTemper2(stdout,sys->energy,sys->atoms->totalNum);
 	endTimer(loop);
 
 	//beginTimer(test);

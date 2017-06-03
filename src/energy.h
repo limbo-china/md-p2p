@@ -8,7 +8,7 @@ struct SystemStr;
 typedef struct EnergyStr{
 
 	double kineticEnergy;
-	//double potentialEnergy;
+	double potentialEnergy;
 
 }Energy;
 

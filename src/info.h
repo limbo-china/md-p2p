@@ -24,6 +24,10 @@ void printLattice(FILE* f, Lattice* lattice);
 // 跟踪模拟体系的总原子数
 void printTotalAtom(FILE* f, Atom* atoms);
 
-// 输出体系的温度
+// 输出体系能量
 void printTemper(FILE*f, Energy* ener, int totalAtom);
+
+// 输出体系温度
+void printTemper2(FILE*f, Energy* ener, int totalAtom);
+
 #endif

@@ -46,11 +46,12 @@ void  computeForce(struct SystemStr* sys){
    double epsilon = potential->epsilon;
    double rCut = potential->cutoff;
    double rCut2 = rCut*rCut;
+   double pot=0.0;
 
     double s6 = sigma*sigma*sigma*sigma*sigma*sigma;
 
-   double rCut6 = s6 / (rCut2*rCut2*rCut2);
-
+   double C6 = s6 / (rCut2*rCut2*rCut2);
+   double e = C6 * (C6 - 1.0);
 		Cell* cells = sys->cells;
 	Atom* atoms = sys->atoms;
 
@@ -120,6 +121,15 @@ void  computeForce(struct SystemStr* sys){
                				//calls7++;
                				r_scalar = 1.0/r_scalar;
                				double r6 = s6 * (r_scalar*r_scalar*r_scalar);
+                           double u = r6 * (r6 - 1.0) - e;
+
+                           atoms->pot[n1] += 0.5*u;
+                           atoms->pot[n2] += 0.5*u;
+
+                           if (cell2 < sys->cells->myCellNum)
+                              pot += e;
+                           else
+                              pot += 0.5 * eLocal;
 
                				double fr = - 4.0*epsilon*r6*r_scalar*(12.0*r6 - 6.0);
               				 for (int m=0; m<3; m++)
@@ -149,6 +159,7 @@ void  computeForce(struct SystemStr* sys){
          		}
          		//printf("calls:%d\n",calls );
     }
+    sys->energy->potentialEnergy = pot*4.0*epsilon;
     //endTimer(force);
 	//printf("calls1: %d calls2: %d calls3: %d calls4: %d calls5: %d calls6: %d calls7: %d\n",calls1,calls2,calls3,calls4,calls5,calls6,calls7);
 }
