@@ -127,9 +127,9 @@ void  computeForce(struct SystemStr* sys){
                            atoms->pot[n2] += 0.5*u;
 
                            if (cell2 < sys->cells->myCellNum)
-                              pot += e;
+                              pot += u;
                            else
-                              pot += 0.5 * eLocal;
+                              pot += 0.5 * u;
 
                				double fr = - 4.0*epsilon*r6*r_scalar*(12.0*r6 - 6.0);
               				 for (int m=0; m<3; m++)

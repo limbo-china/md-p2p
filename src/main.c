@@ -57,7 +57,7 @@ int main(int argc, char** argv){
     	//printTotalAtom(stdout,sys->atoms);
     		if(ifZeroRank())
 			{
-				printf("当前步数: %d 	已模拟时间: %g fs\t",i,i*para.stepTime);
+				printf("当前步数: %d 	已模拟时间: %g fs\t",i,i*para->stepTime);
 			}		
     		computeTotalKinetic(sys);
     		printTemper(stdout,sys->energy,sys->atoms->totalNum);
