@@ -20,8 +20,8 @@ void printPara(FILE* f, Parameter* para){
            "迭代步数: %d\n"
            //"printNums: %d\n"
            "步长: %g fs\n"
-           "初始温度: %g K\n"
-           "----------------\n\n",
+           "初始温度: %g K\n\n"
+           //"----------------\n\n",
            para->xLat, 
            para->yLat,
            para->zLat,
@@ -45,11 +45,11 @@ void printPotential(FILE* f, Potential* potential){
 
     fprintf(f, "---势函数信息:---\n\n");
     fprintf(f, "势函数   : %s\n", potential->potentialType);
-    fprintf(f, "截断半径 : %g\n", potential->cutoff);
+    fprintf(f, "截断半径 : %g\n\n", potential->cutoff);
     //fprintf(f, "sigma          : %g\n", potential->sigma);
     //fprintf(f, "epsilon            : %g\n", potential->epsilon);
     //fprintf(f, "Beta            : %g\n", potential->Beta);
-    fprintf(f, "----------------\n\n");
+    //fprintf(f, "----------------\n\n");
 }
 
 // 打印所模拟晶格的相关信息
