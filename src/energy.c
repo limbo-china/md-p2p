@@ -17,13 +17,15 @@ void initEnergy(Energy** ener){
 // 计算体系的总动能
 void computeTotalKinetic(struct SystemStr* sys){
 
-printf("1\n");
+//printf("1\n");
   // double ener[2];
   // double res_ener[2];
   // ener[0] = 0.0;
   // ener[1] = sys->energy->potentialEnergy;
 	 double myKineticEnergy = 0.0;
 	 double globalKineticEnergy = 0.0;
+   double myPotential = sys->energy->potentialEnergy;
+   double globalPotential = 0.0;
 	double atomM = sys->lattice->atomM;
 
 	// 计算本空间的原子总动能
@@ -32,11 +34,12 @@ printf("1\n");
       		for(int i=0; i<3; i++)
          		myKineticEnergy += sys->atoms->momenta[n][i]*sys->atoms->momenta[n][i]
          			*0.5/atomM;
-printf("2\n");
+//printf("2\n");
     // AllReduce, 得到整个体系的总动能和势能
     MPI_Allreduce(&myKineticEnergy, &globalKineticEnergy, 2, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    printf("3\n");
+    MPI_Allreduce(&myPotential, &globalPotential, 2, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    //printf("3\n");
 
    	sys->energy->kineticEnergy = globalKineticEnergy;
-    //sys->energy->potentialEnergy = ener[1];
+    sys->energy->potentialEnergy = globalPotential;
 }
