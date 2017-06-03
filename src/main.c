@@ -85,10 +85,10 @@ int main(int argc, char** argv){
 	if(ifZeroRank())
 	{
 		//fprintf(stdout, "total time: %g\n",getGlobalTime(total));
-		fprintf(stdout, "\n------\n总执行时间: %g\n"/*,globalloop*/,globalloop/getRankNums());
+		fprintf(stdout, "\n------\n总执行时间: %g s\n"/*,globalloop*/,globalloop/getRankNums());
 		//fprintf(stdout, "adjust time: %g\n",getGlobalTime(adjustatom));
-		fprintf(stdout, "通信消耗时间: %g\n"/*,globalcomm*/,globalcomm/getRankNums());
-		fprintf(stdout, "计算力时间: %g\n------\n"/*,globalforce*/,globalforce/getRankNums());
+		fprintf(stdout, "通信消耗时间: %g s\n"/*,globalcomm*/,globalcomm/getRankNums());
+		fprintf(stdout, "计算力时间: %g s\n------\n"/*,globalforce*/,globalforce/getRankNums());
 		//fprintf(stdout, "test time: %g\n",getGlobalTime(test));
 
 	}
